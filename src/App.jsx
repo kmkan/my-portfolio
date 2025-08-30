@@ -87,13 +87,48 @@ const ProjectCard = ({ videoUrl, title }) => {
     );
 };
 
+const Toast = ({ message, type, show, onClose }) => {
+    const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
+    const icon = type === 'success' ? (
+        <svg className="w-6 h-6 text-white mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+    ) : (
+        <svg className="w-6 h-6 text-white mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+    );
+
+    return (
+        <div className={`fixed top-5 right-5 z-50 transform transition-all duration-500 ease-in-out ${show ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'}`}>
+            <div className={`${bgColor} text-white font-bold rounded-lg shadow-2xl flex items-center p-4`}>
+                {icon}
+                <span className="flex-grow">{message}</span>
+                <button onClick={onClose} className="ml-4 p-1 rounded-full hover:bg-white/20 transition-colors duration-200">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+        </div>
+    );
+};
+
 
 const App = () => {
     const [hoveredLayer, setHoveredLayer] = useState(null);
     const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-    const [statusMessage, setStatusMessage] = useState('');
-    const [isSuccess, setIsSuccess] = useState(false);
+    const [toast, setToast] = useState({ message: '', type: 'success', show: false });
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    
+    const toastTimer = useRef(null);
+
+    const showToast = (message, type) => {
+        clearTimeout(toastTimer.current);
+        setToast({ message, type, show: true });
+        toastTimer.current = setTimeout(() => {
+            setToast(prev => ({ ...prev, show: false }));
+        }, 4000);
+    };
+
+    const handleCloseToast = () => {
+        clearTimeout(toastTimer.current);
+        setToast({ ...toast, show: false });
+    };
 
     const skillsData = {
         top: {
@@ -203,8 +238,7 @@ const App = () => {
         const { name, email, message } = formData;
 
         if (!name || !email || !message) {
-            setStatusMessage('Please fill out all fields.');
-            setIsSuccess(false);
+            showToast('Please fill out all fields.', 'error');
             return;
         }
 
@@ -219,17 +253,14 @@ const App = () => {
             const data = await response.json();
 
             if (response.ok) {
-                setStatusMessage('Message sent successfully!');
-                setIsSuccess(true);
+                showToast('Message sent successfully!', 'success');
                 setFormData({ name: '', email: '', message: '' });
             } else {
-                setStatusMessage(data.msg || 'Something went wrong. Please try again.');
-                setIsSuccess(false);
+                showToast(data.msg || 'Something went wrong.', 'error');
             }
         } catch (error) {
             console.error('Submission error:', error);
-            setStatusMessage('Error submitting form. Could not connect to the server.');
-            setIsSuccess(false);
+            showToast('Could not connect to the server.', 'error');
         }
     };
 
@@ -258,6 +289,7 @@ const App = () => {
                 `}
             </style>
             <div className="bg-white text-black antialiased relative overflow-x-hidden" style={{ fontFamily: "'Montserrat', sans-serif" }}>
+                <Toast message={toast.message} type={toast.type} show={toast.show} onClose={handleCloseToast} />
                 
                 {/* Header Icons */}
                 <div className="absolute top-6 right-6 md:top-8 md:right-8 z-50">
@@ -433,11 +465,6 @@ const App = () => {
                                         </button>
                                     </div>
                                 </form>
-                                {statusMessage && (
-                                    <p className={`mt-4 text-center text-lg ${isSuccess ? 'text-green-600' : 'text-red-600'}`}>
-                                        {statusMessage}
-                                    </p>
-                                )}
                             </div>
                         </div>
                     </section>
