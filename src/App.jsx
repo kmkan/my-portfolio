@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 // Skill Icons - Updated with more accurate logos
 const CppIcon = () => <img src="/img/cpp-logo.svg" alt="C++ Logo" className="w-11 h-11" />;
@@ -108,14 +109,37 @@ const Toast = ({ message, type, show, onClose }) => {
     );
 };
 
+const AnimatedSection = ({ children, animationClass }) => {
+    const { ref, inView } = useInView({
+        triggerOnce: true,
+        threshold: 0.1,
+    });
+
+    return (
+        <div ref={ref} className={`transition-all duration-1000 ${inView ? animationClass : 'opacity-0 translate-y-5'}`}>
+            {children}
+        </div>
+    );
+};
 
 const App = () => {
     const [hoveredLayer, setHoveredLayer] = useState(null);
     const [formData, setFormData] = useState({ name: '', email: '', message: '' });
     const [toast, setToast] = useState({ message: '', type: 'success', show: false });
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [headerVisible, setHeaderVisible] = useState(false);
+    const [navVisible, setNavVisible] = useState(false);
     
     const toastTimer = useRef(null);
+
+    useEffect(() => {
+        const timer1 = setTimeout(() => setHeaderVisible(true), 300);
+        const timer2 = setTimeout(() => setNavVisible(true), 600);
+        return () => {
+            clearTimeout(timer1);
+            clearTimeout(timer2);
+        };
+    }, []);
 
     const showToast = (message, type) => {
         clearTimeout(toastTimer.current);
@@ -273,19 +297,12 @@ const App = () => {
                 {`
                     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
                     @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
-                    @keyframes fadeInRight {
-                        from {
-                            opacity: 0;
-                            transform: translateX(20px);
-                        }
-                        to {
-                            opacity: 1;
-                            transform: translateX(0);
-                        }
-                    }
-                    .animate-fadeInRight {
-                        animation: fadeInRight 0.5s ease-out forwards;
-                    }
+                    @keyframes fadeInRight { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+                    @keyframes fadeInLeft { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+                    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+                    .animate-fadeInRight { animation: fadeInRight 0.8s ease-out forwards; }
+                    .animate-fadeInLeft { animation: fadeInLeft 0.8s ease-out forwards; }
+                    .animate-fadeInUp { animation: fadeInUp 0.8s ease-out forwards; }
                 `}
             </style>
             <div className="bg-white text-black antialiased relative overflow-x-hidden" style={{ fontFamily: "'Montserrat', sans-serif" }}>
@@ -293,7 +310,6 @@ const App = () => {
                 
                 {/* Header Icons */}
                 <div className="absolute top-6 right-6 md:top-8 md:right-8 z-50">
-                    {/* Desktop Icons */}
                     <div className="hidden md:flex items-center space-x-12">
                         {socialLinks.map((social, index) => (
                             <a key={index} href={social.url} target="_blank" rel="noopener noreferrer" style={{color: tealColor}} className="transition-transform duration-300 hover:-translate-y-1">
@@ -301,7 +317,6 @@ const App = () => {
                             </a>
                         ))}
                     </div>
-                    {/* Mobile Menu Button */}
                     <div className="md:hidden">
                         <button onClick={() => setIsMenuOpen(true)} style={{color: tealColor}}>
                              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
@@ -324,7 +339,6 @@ const App = () => {
                         ))}
                     </nav>
                 </div>
-                 {/* Overlay */}
                 {isMenuOpen && <div className="fixed inset-0 bg-black/50 z-40 md:hidden" onClick={() => setIsMenuOpen(false)}></div>}
 
 
@@ -332,13 +346,15 @@ const App = () => {
                     {/* Home Section */}
                     <section id="home" className="min-h-screen flex items-center px-6 sm:px-8 md:px-16 lg:px-24">
                         <div className="text-left w-full max-w-5xl">
-                            <h1 className="font-bold text-gray-900 leading-none" style={{ fontSize: '4rem' }}>
-                                Hi, I'm <span style={{color: tealColor}}>Kamal.</span>
-                            </h1>
-                            <h2 className="font-bold text-gray-800 leading-tight" style={{ fontSize: '4rem' }}>
-                                I'm a software developer.
-                            </h2>
-                            <div className="mt-8 flex flex-wrap">
+                            <div className={`transition-all duration-700 ease-out ${headerVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
+                                <h1 className="font-bold text-gray-900 leading-none" style={{ fontSize: '4rem' }}>
+                                    Hi, I'm <span style={{color: tealColor}}>Kamal.</span>
+                                </h1>
+                                <h2 className="font-bold text-gray-800 leading-tight" style={{ fontSize: '4rem' }}>
+                                    I'm a software developer.
+                                </h2>
+                            </div>
+                            <div className={`mt-8 flex flex-wrap transition-opacity duration-700 ease-out delay-300 ${navVisible ? 'opacity-100' : 'opacity-0'}`}>
                                 {homeNavButtons.map((button, index) => (
                                     <a
                                         key={button.id}
@@ -356,85 +372,91 @@ const App = () => {
                     </section>
 
                     {/* Skills Section */}
-                    <section id="skills" className="relative overflow-hidden" style={{paddingTop: '5rem', paddingBottom: '8rem'}}>
-                       <div className="absolute inset-0" style={{backgroundImage: 'linear-gradient(135deg, #02aab0, #00cdac)', clipPath: 'polygon(0 0, 100% 0, 100% 85%, 0 100%)'}}></div>
-                        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                            <div className="text-center">
-                                <h2 className="text-4xl md:text-5xl font-bold mb-12 text-white">My Skills</h2>
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                                <div className="relative w-full max-w-md mx-auto" onMouseLeave={() => setHoveredLayer(null)}>
-                                    <img src="/img/black_white_cube.png" alt="Rubik's Cube Black and White" className="w-full h-auto" />
-                                    {Object.keys(skillsData).map(layer => (
-                                        <img 
-                                            key={layer}
-                                            src={skillsData[layer].image}
-                                            alt={`${layer} layer colored`}
-                                            className={`absolute top-0 left-0 w-full h-auto transition-opacity duration-300 ${hoveredLayer === layer ? 'opacity-100' : 'opacity-0'}`}
-                                        />
-                                    ))}
-                                    <div className="absolute top-0 left-0 w-full h-1/3 cursor-pointer" onMouseEnter={() => setHoveredLayer('top')}></div>
-                                    <div className="absolute top-1/3 left-0 w-full h-1/3 cursor-pointer" onMouseEnter={() => setHoveredLayer('middle')}></div>
-                                    <div className="absolute top-2/3 left-0 w-full h-1/3 cursor-pointer" onMouseEnter={() => setHoveredLayer('bottom')}></div>
+                    <AnimatedSection animationClass="animate-fadeInUp">
+                        <section id="skills" className="relative overflow-hidden" style={{paddingTop: '5rem', paddingBottom: '8rem'}}>
+                           <div className="absolute inset-0" style={{backgroundImage: 'linear-gradient(135deg, #02aab0, #00cdac)', clipPath: 'polygon(0 0, 100% 0, 100% 85%, 0 100%)'}}></div>
+                            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                                <div className="text-center">
+                                    <h2 className="text-4xl md:text-5xl font-bold mb-12 text-white">My Skills</h2>
                                 </div>
-                                <div className="min-h-[250px] flex flex-col justify-center items-center pt-8">
-                                    {hoveredLayer ? (
-                                        <div key={hoveredLayer} className="w-full text-center p-8 animate-fadeInRight">
-                                            <h3 className="text-3xl font-normal text-white mb-6">{skillsData[hoveredLayer].title}</h3>
-                                            <div className="grid grid-cols-3 md:grid-cols-4 gap-x-4 gap-y-6">
-                                                {skillsData[hoveredLayer].skills.map(skill => (
-                                                     <div key={skill.name} className="flex flex-col items-center justify-start text-center">
-                                                        {skill.icon}
-                                                        <span className="text-lg text-white mt-2">{skill.name}</span>
-                                                    </div>
-                                                ))}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                                    <div className="relative w-full max-w-md mx-auto" onMouseLeave={() => setHoveredLayer(null)}>
+                                        <img src="/img/black_white_cube.png" alt="Rubik's Cube Black and White" className="w-full h-auto" />
+                                        {Object.keys(skillsData).map(layer => (
+                                            <img 
+                                                key={layer}
+                                                src={skillsData[layer].image}
+                                                alt={`${layer} layer colored`}
+                                                className={`absolute top-0 left-0 w-full h-auto transition-opacity duration-300 ${hoveredLayer === layer ? 'opacity-100' : 'opacity-0'}`}
+                                            />
+                                        ))}
+                                        <div className="absolute top-0 left-0 w-full h-1/3 cursor-pointer" onMouseEnter={() => setHoveredLayer('top')}></div>
+                                        <div className="absolute top-1/3 left-0 w-full h-1/3 cursor-pointer" onMouseEnter={() => setHoveredLayer('middle')}></div>
+                                        <div className="absolute top-2/3 left-0 w-full h-1/3 cursor-pointer" onMouseEnter={() => setHoveredLayer('bottom')}></div>
+                                    </div>
+                                    <div className="min-h-[250px] flex flex-col justify-center items-center pt-8">
+                                        {hoveredLayer ? (
+                                            <div key={hoveredLayer} className="w-full text-center p-8 animate-fadeInRight">
+                                                <h3 className="text-3xl font-normal text-white mb-6">{skillsData[hoveredLayer].title}</h3>
+                                                <div className="grid grid-cols-3 md:grid-cols-4 gap-x-4 gap-y-6">
+                                                    {skillsData[hoveredLayer].skills.map(skill => (
+                                                         <div key={skill.name} className="flex flex-col items-center justify-start text-center">
+                                                            {skill.icon}
+                                                            <span className="text-lg text-white mt-2">{skill.name}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
                                             </div>
-                                        </div>
-                                    ) : (
-                                        <div className="p-8 text-center">
-                                            <p className="text-3xl text-white">"Apps are like Rubik's Cubes. They've got layers."</p>
-                                            <p className="text-xl text-white mt-4">Select a layer on the cube to show stack skills.</p>
-                                        </div>
-                                    )}
+                                        ) : (
+                                            <div className="p-8 text-center">
+                                                <p className="text-3xl text-white">"Apps are like Rubik's Cubes. They've got layers."</p>
+                                                <p className="text-xl text-white mt-4">Select a layer on the cube to show stack skills.</p>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </section>
+                        </section>
+                    </AnimatedSection>
 
                     {/* Projects Section */}
-                    <section id="projects" className="py-16 md:py-24">
+                     <section id="projects" className="py-16 md:py-24">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                            <div className="text-center">
-                                <h2 className="text-4xl md:text-5xl font-bold mb-16 text-gray-800">PROJECTS</h2>
-                            </div>
+                            <AnimatedSection animationClass="animate-fadeInUp">
+                                <div className="text-center">
+                                    <h2 className="text-4xl md:text-5xl font-bold mb-16 text-gray-800">PROJECTS</h2>
+                                </div>
+                            </AnimatedSection>
                             <div className="space-y-24">
                                 {projects.map((project, index) => (
-                                    <div key={index} className="grid grid-cols-1 md:grid-cols-5 gap-12 items-start">
-                                        <div className={`md:col-span-2 ${index % 2 !== 0 ? 'md:order-2' : ''}`}>
-                                            <h3 className="text-3xl font-bold mb-4">{project.title}</h3>
-                                            <div className="flex flex-wrap gap-1 mb-4">
-                                                {project.tags.map((tag, i) => (
-                                                    <span key={i} style={{ backgroundColor: 'rgba(67, 85, 82, .576471)' }} className="text-white text-sm font-semibold px-3 py-1 border border-black">{tag}</span>
-                                                ))}
+                                     <AnimatedSection key={index} animationClass={index % 2 === 0 ? 'animate-fadeInLeft' : 'animate-fadeInRight'}>
+                                        <div className="grid grid-cols-1 md:grid-cols-5 gap-12 items-start">
+                                            <div className={`md:col-span-2 ${index % 2 !== 0 ? 'md:order-2' : ''}`}>
+                                                <h3 className="text-3xl font-bold mb-4">{project.title}</h3>
+                                                <div className="flex flex-wrap gap-1 mb-4">
+                                                    {project.tags.map((tag, i) => (
+                                                        <span key={i} style={{ backgroundColor: 'rgba(67, 85, 82, .576471)' }} className="text-white text-sm font-semibold px-3 py-1 border border-black">{tag}</span>
+                                                    ))}
+                                                </div>
+                                                {project.collaborators && <p className="text-gray-600 mb-4"><span className="font-bold">Collaborators:</span> {project.collaborators}</p>}
+                                                <p className="text-gray-700 mb-4 text-lg">{project.description}</p>
+                                                {project.note && <p className="text-sm text-black italic mb-3">{project.note}</p>}
+                                                <div className="flex">
+                                                    <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="group relative inline-block px-3 py-1.5 border-y-2 border-r-2 border-l-2 font-bold text-lg tracking-wider overflow-hidden" style={{borderColor: tealColor, color: tealColor}}>
+                                                        <span className="relative z-10 group-hover:text-white transition-colors duration-200 ease-in-out">See Live</span>
+                                                        <span className="absolute inset-0 transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-200 ease-in-out" style={{backgroundColor: tealColor}}></span>
+                                                    </a>
+                                                    <a href={project.codeUrl} target="_blank" rel="noopener noreferrer" className="group relative inline-block px-3 py-1.5 border-y-2 border-r-2 font-bold text-lg tracking-wider overflow-hidden -ml-px" style={{borderColor: tealColor, color: tealColor}}>
+                                                        <span className="relative z-10 group-hover:text-white transition-colors duration-200 ease-in-out">Source Code</span>
+                                                        <span className="absolute inset-0 transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-200 ease-in-out" style={{backgroundColor: tealColor}}></span>
+                                                    </a>
+                                                </div>
                                             </div>
-                                            {project.collaborators && <p className="text-gray-600 mb-4"><span className="font-bold">Collaborators:</span> {project.collaborators}</p>}
-                                            <p className="text-gray-700 mb-4 text-lg">{project.description}</p>
-                                            {project.note && <p className="text-sm text-black italic mb-3">{project.note}</p>}
-                                            <div className="flex">
-                                                <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="group relative inline-block px-3 py-1.5 border-y-2 border-r-2 border-l-2 font-bold text-lg tracking-wider overflow-hidden" style={{borderColor: tealColor, color: tealColor}}>
-                                                    <span className="relative z-10 group-hover:text-white transition-colors duration-200 ease-in-out">See Live</span>
-                                                    <span className="absolute inset-0 transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-200 ease-in-out" style={{backgroundColor: tealColor}}></span>
-                                                </a>
-                                                <a href={project.codeUrl} target="_blank" rel="noopener noreferrer" className="group relative inline-block px-3 py-1.5 border-y-2 border-r-2 font-bold text-lg tracking-wider overflow-hidden -ml-px" style={{borderColor: tealColor, color: tealColor}}>
-                                                    <span className="relative z-10 group-hover:text-white transition-colors duration-200 ease-in-out">Source Code</span>
-                                                    <span className="absolute inset-0 transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-200 ease-in-out" style={{backgroundColor: tealColor}}></span>
-                                                </a>
+                                            <div className={`md:col-span-3 ${index % 2 !== 0 ? 'md:order-1' : ''}`}>
+                                                <ProjectCard videoUrl={project.videoUrl} title={project.title} />
                                             </div>
                                         </div>
-                                        <div className={`md:col-span-3 ${index % 2 !== 0 ? 'md:order-1' : ''}`}>
-                                            <ProjectCard videoUrl={project.videoUrl} title={project.title} />
-                                        </div>
-                                    </div>
+                                    </AnimatedSection>
                                 ))}
                             </div>
                         </div>
@@ -442,32 +464,34 @@ const App = () => {
 
 
                     {/* Contact Section */}
-                    <section id="contact" className="py-20 md:py-32">
-                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                            <div className="text-center">
-                                <h2 className="text-4xl md:text-5xl font-bold mb-12 text-gray-800">CONTACT</h2>
+                    <AnimatedSection animationClass="animate-fadeInUp">
+                        <section id="contact" className="py-16 md:py-28">
+                            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                                <div className="text-center">
+                                    <h2 className="text-4xl md:text-5xl font-bold mb-12 text-gray-800">CONTACT</h2>
+                                </div>
+                                <div className="max-w-4xl mx-auto">
+                                    <form onSubmit={handleFormSubmit} className="space-y-4">
+                                        <div>
+                                            <input type="text" name="name" id="name" placeholder="Name" value={formData.name} onChange={handleFormChange} className="w-full bg-transparent border-2 border-gray-300 rounded-md py-2 px-4 text-lg font-normal placeholder-gray-500 focus:outline-none focus:border-teal-500" />
+                                        </div>
+                                        <div>
+                                            <input type="text" name="email" id="email" placeholder="Email" value={formData.email} onChange={handleFormChange} className="w-full bg-transparent border-2 border-gray-300 rounded-md py-2 px-4 text-lg font-normal placeholder-gray-500 focus:outline-none focus:border-teal-500" />
+                                        </div>
+                                        <div>
+                                            <textarea name="message" id="message" rows="5" placeholder="Message" value={formData.message} onChange={handleFormChange} className="w-full bg-transparent border-2 border-gray-300 rounded-md py-2 px-4 text-lg font-normal placeholder-gray-500 focus:outline-none focus:border-teal-500"></textarea>
+                                        </div>
+                                        <div className="text-center pt-0">
+                                            <button type="submit" className="group relative inline-block px-4 py-2 border-2 text-xl md:text-2xl font-bold tracking-wider overflow-hidden" style={{borderColor: tealColor, color: tealColor}}>
+                                                <span className="relative z-10 group-hover:text-white transition-colors duration-200 ease-in-out">Send</span>
+                                                <span className="absolute inset-0 transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-200 ease-in-out" style={{backgroundColor: tealColor}}></span>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
-                            <div className="max-w-4xl mx-auto">
-                                <form onSubmit={handleFormSubmit} className="space-y-4">
-                                    <div>
-                                        <input type="text" name="name" id="name" placeholder="Name" value={formData.name} onChange={handleFormChange} className="w-full bg-transparent border-2 border-gray-300 rounded-md py-2 px-4 text-lg font-normal placeholder-gray-500 focus:outline-none focus:border-teal-500" />
-                                    </div>
-                                    <div>
-                                        <input type="text" name="email" id="email" placeholder="Email" value={formData.email} onChange={handleFormChange} className="w-full bg-transparent border-2 border-gray-300 rounded-md py-2 px-4 text-lg font-normal placeholder-gray-500 focus:outline-none focus:border-teal-500" />
-                                    </div>
-                                    <div>
-                                        <textarea name="message" id="message" rows="5" placeholder="Message" value={formData.message} onChange={handleFormChange} className="w-full bg-transparent border-2 border-gray-300 rounded-md py-2 px-4 text-lg font-normal placeholder-gray-500 focus:outline-none focus:border-teal-500"></textarea>
-                                    </div>
-                                    <div className="text-center pt-0">
-                                        <button type="submit" className="group relative inline-block px-4 py-2 border-2 text-xl md:text-2xl font-bold tracking-wider overflow-hidden" style={{borderColor: tealColor, color: tealColor}}>
-                                            <span className="relative z-10 group-hover:text-white transition-colors duration-200 ease-in-out">Send</span>
-                                            <span className="absolute inset-0 transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-200 ease-in-out" style={{backgroundColor: tealColor}}></span>
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </section>
+                        </section>
+                    </AnimatedSection>
                 </main>
 
                 {/* Footer */}
