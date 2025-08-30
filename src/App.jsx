@@ -93,6 +93,7 @@ const App = () => {
     const [formData, setFormData] = useState({ name: '', email: '', message: '' });
     const [statusMessage, setStatusMessage] = useState('');
     const [isSuccess, setIsSuccess] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const skillsData = {
         top: {
@@ -257,15 +258,43 @@ const App = () => {
                 `}
             </style>
             <div className="bg-white text-black antialiased relative overflow-x-hidden" style={{ fontFamily: "'Montserrat', sans-serif" }}>
-
-                {/* Static Social Icons */}
-                <div className="absolute top-6 right-6 md:top-8 md:right-8 flex items-center space-x-12 z-50">
-                    {socialLinks.map((social, index) => (
-                        <a key={index} href={social.url} target="_blank" rel="noopener noreferrer" style={{color: tealColor}} className="transition-transform duration-300 hover:-translate-y-1">
-                            {social.icon}
-                        </a>
-                    ))}
+                
+                {/* Header Icons */}
+                <div className="absolute top-6 right-6 md:top-8 md:right-8 z-50">
+                    {/* Desktop Icons */}
+                    <div className="hidden md:flex items-center space-x-12">
+                        {socialLinks.map((social, index) => (
+                            <a key={index} href={social.url} target="_blank" rel="noopener noreferrer" style={{color: tealColor}} className="transition-transform duration-300 hover:-translate-y-1">
+                                {social.icon}
+                            </a>
+                        ))}
+                    </div>
+                    {/* Mobile Menu Button */}
+                    <div className="md:hidden">
+                        <button onClick={() => setIsMenuOpen(true)} style={{color: tealColor}}>
+                             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                        </button>
+                    </div>
                 </div>
+
+                {/* Mobile Menu Panel */}
+                <div className={`fixed top-0 right-0 h-full w-64 bg-white shadow-lg z-50 transform transition-transform duration-300 ease-in-out ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+                    <div className="p-6 flex justify-end">
+                         <button onClick={() => setIsMenuOpen(false)} style={{color: tealColor}}>
+                           <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        </button>
+                    </div>
+                    <nav className="flex flex-col items-center space-y-8 mt-8">
+                        {socialLinks.map((social, index) => (
+                             <a key={index} href={social.url} target="_blank" rel="noopener noreferrer" style={{color: tealColor}} className="transition-transform duration-300 hover:-translate-y-1 text-2xl">
+                                {social.icon}
+                            </a>
+                        ))}
+                    </nav>
+                </div>
+                 {/* Overlay */}
+                {isMenuOpen && <div className="fixed inset-0 bg-black/50 z-40 md:hidden" onClick={() => setIsMenuOpen(false)}></div>}
+
 
                 <main className="z-10 relative">
                     {/* Home Section */}
@@ -392,7 +421,7 @@ const App = () => {
                                         <input type="text" name="name" id="name" placeholder="Name" value={formData.name} onChange={handleFormChange} className="w-full bg-transparent border-2 border-gray-300 rounded-md py-2 px-4 text-lg font-normal placeholder-gray-500 focus:outline-none focus:border-teal-500" />
                                     </div>
                                     <div>
-                                        <input type="email" name="email" id="email" placeholder="Email" value={formData.email} onChange={handleFormChange} className="w-full bg-transparent border-2 border-gray-300 rounded-md py-2 px-4 text-lg font-normal placeholder-gray-500 focus:outline-none focus:border-teal-500" />
+                                        <input type="text" name="email" id="email" placeholder="Email" value={formData.email} onChange={handleFormChange} className="w-full bg-transparent border-2 border-gray-300 rounded-md py-2 px-4 text-lg font-normal placeholder-gray-500 focus:outline-none focus:border-teal-500" />
                                     </div>
                                     <div>
                                         <textarea name="message" id="message" rows="5" placeholder="Message" value={formData.message} onChange={handleFormChange} className="w-full bg-transparent border-2 border-gray-300 rounded-md py-2 px-4 text-lg font-normal placeholder-gray-500 focus:outline-none focus:border-teal-500"></textarea>
