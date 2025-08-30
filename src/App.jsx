@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
+// Skill Icons - Updated with more accurate logos
 const CppIcon = () => <img src="/img/cpp-logo.svg" alt="C++ Logo" className="w-11 h-11" />;
 const PythonIcon = () => <img src="/img/python-logo.svg" alt="Python Logo" className="w-11 h-11" />;
 const JavaIcon = () => <img src="/img/java-logo.svg" alt="Java Logo" className="w-11 h-11" />;
@@ -22,6 +23,7 @@ const CiCdIcon = () => <svg className="w-11 h-11" viewBox="0 0 24 24"><circle cx
 const VercelIcon = () => <svg className="w-11 h-11" viewBox="0 0 24 24"><path fill="#000000" d="M12 2L2 22h20L12 2z"/></svg>;
 const PostgreSqlIcon = () => <img src="/img/postgresql-logo.svg" alt="PostgreSQL Logo" className="w-11 h-11" />;
 
+// Main Icons
 const LinkedInIcon = ({ size = 35, color = "currentColor" }) => (
     <i className="fa fa-linkedin" style={{ fontSize: `${size}px`, color: color }}></i>
 );
@@ -213,17 +215,19 @@ const App = () => {
                 body: JSON.stringify(formData),
             });
 
+            const data = await response.json();
+
             if (response.ok) {
                 setStatusMessage('Message sent successfully!');
                 setIsSuccess(true);
                 setFormData({ name: '', email: '', message: '' });
             } else {
-                setStatusMessage('Something went wrong. Please try again.');
+                setStatusMessage(data.msg || 'Something went wrong. Please try again.');
                 setIsSuccess(false);
             }
         } catch (error) {
             console.error('Submission error:', error);
-            setStatusMessage('Error submitting form. Please check the console.');
+            setStatusMessage('Error submitting form. Could not connect to the server.');
             setIsSuccess(false);
         }
     };
@@ -232,6 +236,7 @@ const App = () => {
 
     return (
         <>
+            {/* Google Font & Font Awesome Import */}
             <style>
                 {`
                     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
@@ -253,6 +258,7 @@ const App = () => {
             </style>
             <div className="bg-white text-black antialiased relative overflow-x-hidden" style={{ fontFamily: "'Montserrat', sans-serif" }}>
 
+                {/* Static Social Icons */}
                 <div className="absolute top-6 right-6 md:top-8 md:right-8 flex items-center space-x-12 z-50">
                     {socialLinks.map((social, index) => (
                         <a key={index} href={social.url} target="_blank" rel="noopener noreferrer" style={{color: tealColor}} className="transition-transform duration-300 hover:-translate-y-1">
@@ -262,6 +268,7 @@ const App = () => {
                 </div>
 
                 <main className="z-10 relative">
+                    {/* Home Section */}
                     <section id="home" className="min-h-screen flex items-center px-6 sm:px-8 md:px-16 lg:px-24">
                         <div className="text-left w-full max-w-5xl">
                             <h1 className="font-bold text-gray-900 leading-none" style={{ fontSize: '4rem' }}>
@@ -287,6 +294,7 @@ const App = () => {
                         </div>
                     </section>
 
+                    {/* Skills Section */}
                     <section id="skills" className="relative overflow-hidden" style={{paddingTop: '5rem', paddingBottom: '8rem'}}>
                        <div className="absolute inset-0" style={{backgroundImage: 'linear-gradient(135deg, #02aab0, #00cdac)', clipPath: 'polygon(0 0, 100% 0, 100% 85%, 0 100%)'}}></div>
                         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -332,6 +340,7 @@ const App = () => {
                         </div>
                     </section>
 
+                    {/* Projects Section */}
                     <section id="projects" className="py-16 md:py-24">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                             <div className="text-center">
@@ -370,6 +379,8 @@ const App = () => {
                         </div>
                     </section>
 
+
+                    {/* Contact Section */}
                     <section id="contact" className="py-20 md:py-32">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                             <div className="text-center">
@@ -403,6 +414,7 @@ const App = () => {
                     </section>
                 </main>
 
+                {/* Footer */}
                 <footer style={{ backgroundColor: '#333' }} className="text-white">
                     <div className="max-w-7xl mx-auto pt-16 pb-20 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
                         <a href="#home" onClick={(e) => handleScroll(e, 'home')} className="mb-10 transition-transform duration-300 hover:-translate-y-1">
