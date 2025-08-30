@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-// Skill Icons - Updated with more accurate logos
 const CppIcon = () => <img src="/img/cpp-logo.svg" alt="C++ Logo" className="w-11 h-11" />;
 const PythonIcon = () => <img src="/img/python-logo.svg" alt="Python Logo" className="w-11 h-11" />;
 const JavaIcon = () => <img src="/img/java-logo.svg" alt="Java Logo" className="w-11 h-11" />;
