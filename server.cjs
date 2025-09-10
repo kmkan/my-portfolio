@@ -6,19 +6,15 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 3001;
 
-// --- Robust CORS Configuration ---
-// This allows requests from your custom domain (with and without www)
-// and your local development environment.
 const allowedOrigins = [
   process.env.FRONTEND_URL, 
   'https://www.kamalkandpal.com', 
   'https://kamalkandpal.com',
   'http://localhost:5173'
-].filter(Boolean); // Filters out any undefined/null values
+].filter(Boolean); 
 
 const corsOptions = {
   origin: function (origin, callback) {
-    // allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
     
     if (allowedOrigins.indexOf(origin) === -1) {
@@ -52,6 +48,11 @@ const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(String(email).toLowerCase());
 }
+
+// This route is specifically for uptime monitoring services.
+app.get('/', (req, res) => {
+  res.status(200).json({ status: 'Server is alive and kicking!' });
+});
 
 // API Route
 app.post('/api/contact', async (req, res) => {
