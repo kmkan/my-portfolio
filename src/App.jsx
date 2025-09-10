@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
+// Skill Icons - Updated with more accurate logos
 const CppIcon = () => <img src="/img/cpp-logo.svg" alt="C++ Logo" className="w-11 h-11" />;
 const PythonIcon = () => <img src="/img/python-logo.svg" alt="Python Logo" className="w-11 h-11" />;
 const JavaIcon = () => <img src="/img/java-logo.svg" alt="Java Logo" className="w-11 h-11" />;
@@ -468,7 +469,8 @@ const App = () => {
                         <section id="contact" className="py-16 md:py-28">
                             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                                 <div className="text-center">
-                                    <h2 className="text-4xl md:text-5xl font-bold mb-12 text-gray-800">CONTACT</h2>
+                                    <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-800">CONTACT</h2>
+                                    <p className="text-md text-gray-600 mb-8 max-w-xl mx-auto italic">Note: The backend is hosted on a free server. The first message may take up to 30 seconds to send as the server spins up.</p>
                                 </div>
                                 <div className="max-w-4xl mx-auto">
                                     <form onSubmit={handleFormSubmit} className="space-y-4">
