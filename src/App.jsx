@@ -217,6 +217,7 @@ const App = () => {
             title: 'Documentify',
             description: 'A real-time collaborative document editor built from the ground up with the MERN stack (MongoDB, Express, React, Node.js). Leverages Socket.IO for instant, multi-user document synchronization and a live online user count. Features a minimalist interface where users can instantly create or join document rooms, with an intelligent debounced auto-save function to efficiently persist changes to the database. The application is architected with a full-stack design, utilizing a RESTful API for room management and a WebSocket layer for seamless collaborative editing.',
             tags: ['MERN', 'MongoDB', 'Express', 'React', 'Node.js', 'Socket.IO', 'REST API'],
+            note: "Note: The backend is hosted on a free Render server, so it may take up to 30 seconds to spin up on the first visit.",
             liveUrl: 'https://documentify.vercel.app/',
             codeUrl: 'https://github.com/kmkan/documentify',
             videoUrl: '/img/documentify.png'
