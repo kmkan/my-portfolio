@@ -23,6 +23,14 @@ const GitIcon = () => <img src="/img/git-logo.svg" alt="Git Logo" className="w-1
 const CiCdIcon = () => <svg className="w-11 h-11" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="#4A4A4A" strokeWidth="2"/><path fill="#4A4A4A" d="M12 6v12m-4-8l4-4 4 4m-4 8l-4-4h8z"/></svg>;
 const VercelIcon = () => <svg className="w-11 h-11" viewBox="0 0 24 24"><path fill="#000000" d="M12 2L2 22h20L12 2z"/></svg>;
 const PostgreSqlIcon = () => <img src="/img/postgresql-logo.svg" alt="PostgreSQL Logo" className="w-11 h-11" />;
+const CIcon = () => <svg className="w-11 h-11" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#A8B9CC"/><text x="12" y="16.5" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#04365a">C</text></svg>;
+const PyTorchIcon = () => <svg className="w-11 h-11" viewBox="0 0 24 24"><path fill="#EE4C2C" d="M17.5 6.5a7.5 7.5 0 11-10.6 0l1.4 1.4a5.5 5.5 0 107.8 0l1.4-1.4zM12 2v9" stroke="#EE4C2C" strokeWidth="1.6" strokeLinecap="round"/><circle cx="15.6" cy="5.2" r="1.1" fill="#EE4C2C"/></svg>;
+const PandasIcon = () => <svg className="w-11 h-11" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3" fill="#150458"/><rect x="7" y="7" width="2.5" height="10" fill="#fff"/><rect x="11" y="7" width="2.5" height="6" fill="#E70488"/><rect x="15" y="7" width="2.5" height="8" fill="#fff"/></svg>;
+const VertexAiIcon = () => <svg className="w-11 h-11" viewBox="0 0 24 24"><path fill="#4285F4" d="M12 2l3.5 6h-7z"/><path fill="#EA4335" d="M15.5 8l3.5 6-7 3z"/><path fill="#FBBC05" d="M19 14l-3.5 6-3.5-3z"/><path fill="#34A853" d="M12 17l-3.5 3-3.5-6z"/><path fill="#4285F4" d="M5 14l3.5-6 3.5 3z"/></svg>;
+const FastApiIcon = () => <svg className="w-11 h-11" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#009688"/><path fill="#fff" d="M13 3L6 13h5l-2 8 8-11h-5z"/></svg>;
+const OnnxIcon = () => <svg className="w-11 h-11" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#0b0b0b"/><circle cx="8" cy="9" r="2" fill="#fff"/><circle cx="16" cy="9" r="2" fill="#fff"/><circle cx="12" cy="16" r="2" fill="#fff"/><path stroke="#fff" strokeWidth="1" d="M8 9L12 16M16 9L12 16M8 9L16 9"/></svg>;
+const KubernetesIcon = () => <svg className="w-11 h-11" viewBox="0 0 24 24"><path fill="#326CE5" d="M12 1.5l9 4.9v11.2l-9 4.9-9-4.9V6.4z"/><circle cx="12" cy="12" r="4.2" fill="#fff"/></svg>;
+const GoogleCloudIcon = () => <svg className="w-11 h-11" viewBox="0 0 24 24"><path fill="#4285F4" d="M15.5 9.5h-.7l-2-2v-.3a4.5 4.5 0 00-7.4 3.4 3.8 3.8 0 00.3 7.5h9.8a3.8 3.8 0 000-7.6z"/><path fill="#EA4335" d="M18 9.9l-.3-.2a6.1 6.1 0 00-11.6 1.8 5.3 5.3 0 00.4 10.5H18a5.05 5.05 0 000-10.1z" opacity="0"/></svg>;
 
 // Main Icons
 const LinkedInIcon = ({ size = 35, color = "currentColor" }) => (
@@ -150,40 +158,34 @@ const App = () => {
 
     const skillsData = {
         top: {
-            title: 'Libraries & Frameworks',
+            title: 'ML & Frameworks',
             skills: [
-                { name: 'React', icon: <ReactIcon /> },
-                { name: 'Node.js', icon: <NodeIcon /> },
-                { name: 'Express', icon: <ExpressIcon /> },
-                { name: 'TensorFlow', icon: <TensorFlowIcon /> },
+                { name: 'PyTorch', icon: <PyTorchIcon /> },
+                { name: 'Pandas', icon: <PandasIcon /> },
+                { name: 'Scikit-learn', icon: <ScikitLearnIcon /> },
+                { name: 'FastAPI', icon: <FastApiIcon /> },
                 { name: 'OpenCV', icon: <OpenCvIcon /> },
-                { name: 'three.js', icon: <ThreeJsIcon /> },
-                { name: 'Scikit-learn', icon: <ScikitLearnIcon /> }
+                { name: 'React', icon: <ReactIcon /> }
             ],
             image: '/img/top_layer_coloured.png'
         },
         middle: {
             title: 'Languages',
             skills: [
-                { name: 'C++', icon: <CppIcon /> },
                 { name: 'Python', icon: <PythonIcon /> },
-                { name: 'Java', icon: <JavaIcon /> },
-                { name: 'JavaScript', icon: <JsIcon /> },
                 { name: 'TypeScript', icon: <TsIcon /> },
                 { name: 'SQL', icon: <SqlIcon /> },
-                { name: 'HTML/CSS', icon: <HtmlCssIcon /> },
-                { name: 'CUDA', icon: <CudaIcon /> }
+                { name: 'C++', icon: <CppIcon /> }
             ],
             image: '/img/middle_layer_coloured.png'
         },
         bottom: {
             title: 'Cloud & DevOps',
             skills: [
-                { name: 'AWS', icon: <AwsIcon /> },
                 { name: 'Docker', icon: <DockerIcon /> },
-                { name: 'Git', icon: <GitIcon /> },
-                { name: 'CI/CD', icon: <CiCdIcon /> },
-                { name: 'Vercel', icon: <VercelIcon /> },
+                { name: 'Kubernetes', icon: <KubernetesIcon /> },
+                { name: 'AWS', icon: <AwsIcon /> },
+                { name: 'Google Cloud', icon: <GoogleCloudIcon /> },
                 { name: 'PostgreSQL', icon: <PostgreSqlIcon /> }
             ],
             image: '/img/bottom_layer_coloured.png'
@@ -203,7 +205,6 @@ const App = () => {
             title: 'C++ Neural Network Library',
             description: 'A foundational neural network library built from the ground up in C++ for creating, training, and evaluating custom models. Features a modular, object-oriented design implementing core algorithms like backpropagation, demonstrated by successfully classifying digits from the MNIST dataset with high accuracy.',
             tags: ['C++', 'Neural Network', 'Machine Learning', 'OOP'],
-            liveUrl: 'https://youtu.be/eK-QJNFXfKI?si=taj68t4y9Il98T2W&t=69',
             codeUrl: 'https://github.com/kmkan/cpp-neural-network-library',
             videoUrl: 'https://www.youtube.com/embed/eK-QJNFXfKI?start=69&si=taj68t4y9Il98T2W'
         }
@@ -425,11 +426,13 @@ const App = () => {
                                                 <p className="text-gray-700 mb-4 text-lg">{project.description}</p>
                                                 {project.note && <p className="text-sm text-black italic mb-3">{project.note}</p>}
                                                 <div className="flex">
-                                                    <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="group relative inline-block px-3 py-1.5 border-y-2 border-r-2 border-l-2 font-bold text-lg tracking-wider overflow-hidden" style={{borderColor: tealColor, color: tealColor}}>
-                                                        <span className="relative z-10 group-hover:text-white transition-colors duration-200 ease-in-out">See Live</span>
-                                                        <span className="absolute inset-0 transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-200 ease-in-out" style={{backgroundColor: tealColor}}></span>
-                                                    </a>
-                                                    <a href={project.codeUrl} target="_blank" rel="noopener noreferrer" className="group relative inline-block px-3 py-1.5 border-y-2 border-r-2 font-bold text-lg tracking-wider overflow-hidden -ml-px" style={{borderColor: tealColor, color: tealColor}}>
+                                                    {project.liveUrl && (
+                                                        <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="group relative inline-block px-3 py-1.5 border-y-2 border-r-2 border-l-2 font-bold text-lg tracking-wider overflow-hidden" style={{borderColor: tealColor, color: tealColor}}>
+                                                            <span className="relative z-10 group-hover:text-white transition-colors duration-200 ease-in-out">See Live</span>
+                                                            <span className="absolute inset-0 transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-200 ease-in-out" style={{backgroundColor: tealColor}}></span>
+                                                        </a>
+                                                    )}
+                                                    <a href={project.codeUrl} target="_blank" rel="noopener noreferrer" className={`group relative inline-block px-3 py-1.5 border-y-2 border-r-2 font-bold text-lg tracking-wider overflow-hidden ${project.liveUrl ? '-ml-px' : 'border-l-2'}`} style={{borderColor: tealColor, color: tealColor}}>
                                                         <span className="relative z-10 group-hover:text-white transition-colors duration-200 ease-in-out">Source Code</span>
                                                         <span className="absolute inset-0 transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-200 ease-in-out" style={{backgroundColor: tealColor}}></span>
                                                     </a>
