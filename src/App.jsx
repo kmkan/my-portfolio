@@ -352,7 +352,7 @@ const App = () => {
                                     Hi, I'm <span style={{color: tealColor}}>Kamal.</span>
                                 </h1>
                                 <h2 className="font-bold text-gray-800 leading-tight" style={{ fontSize: '4rem' }}>
-                                    I'm a software developer.
+                                    I'm an AI Developer.
                                 </h2>
                             </div>
                             <div className={`mt-8 flex flex-wrap transition-opacity duration-700 ease-out delay-300 ${navVisible ? 'opacity-100' : 'opacity-0'}`}>
