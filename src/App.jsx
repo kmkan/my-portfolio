@@ -198,31 +198,21 @@ const App = () => {
 
     const projects = [
         {
+            title: 'FinRAG',
+            description: 'An agentic RAG system for financial research, built end-to-end from a custom ETL pipeline to a deployed AI agent. Ingests and embeds financial news into a Chroma vector database via a scheduled backfill and daily cron pipeline, then exposes a LangChain agent (via Groq) with tool access to both semantic news search and live stock price data. Serves a full-stack chat interface (FastAPI + React) deployed on AWS EC2 with Nginx.',
+            tags: ['Python', 'LangChain', 'FastAPI', 'React', 'ChromaDB', 'AWS', 'RAG'],
+            liveUrl: 'https://youtu.be/sZyRjD5OHjM',
+            codeUrl: 'https://github.com/kmkan/finrag',
+            videoUrl: 'https://www.youtube.com/embed/sZyRjD5OHjM'
+        },
+        {
             title: 'C++ Neural Network Library',
             description: 'A foundational neural network library built from the ground up in C++ for creating, training, and evaluating custom models. Features a modular, object-oriented design implementing core algorithms like backpropagation, demonstrated by successfully classifying digits from the MNIST dataset with high accuracy.',
             tags: ['C++', 'Neural Network', 'Machine Learning', 'OOP'],
             liveUrl: 'https://youtu.be/eK-QJNFXfKI?si=taj68t4y9Il98T2W&t=69',
             codeUrl: 'https://github.com/kmkan/cpp-neural-network-library',
             videoUrl: 'https://www.youtube.com/embed/eK-QJNFXfKI?start=69&si=taj68t4y9Il98T2W'
-        },
-        {
-            title: "Rubik's Cube App",
-            description: "An interactive 3D Rubik's Cube web application built from the ground up using React. Features a fully playable 3D model with comprehensive keyboard controls for standard, slice, and wide moves. Leverages Three.js with react-three-fiber for declarative 3D rendering and GSAP for smooth, responsive turn animations, all managed by a robust custom state system.",
-            tags: ['React', 'Three.js', 'react-three-fiber', 'GSAP'],
-            note: "Make sure to read the instructions in the top left of the application in order to utilize the Rubik's Cube.",
-            liveUrl: 'https://rubiks-cube-app-30kf.onrender.com/',
-            codeUrl: 'https://github.com/kmkan/rubiks-cube-app',
-            videoUrl: '/img/rubiks-cube-app.png'
-        },
-        {
-            title: 'Documentify',
-            description: 'A real-time collaborative document editor built from the ground up with the MERN stack (MongoDB, Express, React, Node.js). Leverages Socket.IO for instant, multi-user document synchronization and a live online user count. Features a minimalist interface where users can instantly create or join document rooms, with an intelligent debounced auto-save function to efficiently persist changes to the database. The application is architected with a full-stack design, utilizing a RESTful API for room management and a WebSocket layer for seamless collaborative editing.',
-            tags: ['MERN', 'MongoDB', 'Express', 'React', 'Node.js', 'Socket.IO', 'REST API'],
-            note: "Note: The backend is hosted on a free Render server, so it may take up to 30 seconds to spin up on the first visit.",
-            liveUrl: 'https://documentify.vercel.app/',
-            codeUrl: 'https://github.com/kmkan/documentify',
-            videoUrl: '/img/documentify.png'
-        },
+        }
     ];
     
     const socialLinks = [
