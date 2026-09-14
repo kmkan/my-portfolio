@@ -221,7 +221,7 @@ const App = () => {
             liveUrl: 'http://56.112.37.178',
             codeUrl: 'https://github.com/kmkan/finrag',
             videoUrl: 'https://www.youtube.com/embed/sZyRjD5OHjM'
-        },,
+        },
         {
             title: 'C++ Neural Network Library',
             description: 'A foundational neural network library built from the ground up in C++ for creating, training, and evaluating custom models. Features a modular, object-oriented design implementing core algorithms like backpropagation, demonstrated by successfully classifying digits from the MNIST dataset with high accuracy.',
@@ -359,13 +359,13 @@ const App = () => {
                                     I'm an <RotatingRole color={tealColor} />
                                 </h2>
                             </div>
-                            <div className={`mt-8 flex flex-wrap transition-opacity duration-700 ease-out delay-300 ${navVisible ? 'opacity-100' : 'opacity-0'}`}>
-                                {homeNavButtons.map((button, index) => (
+                            <div className={`mt-8 flex flex-col sm:flex-row transition-opacity duration-700 ease-out delay-300 ${navVisible ? 'opacity-100' : 'opacity-0'}`}>
+                                {homeNavButtons.map((button) => (
                                     <a
                                         key={button.id}
                                         href={`#${button.id}`}
                                         onClick={(e) => handleScroll(e, button.id)}
-                                        className={`group relative inline-block px-4 py-2 border-y-2 border-r-2 font-bold text-xl md:text-2xl tracking-wider overflow-hidden ${index === 0 ? 'border-l-2' : '-ml-px'}`}
+                                        className="group relative block sm:inline-block w-full sm:w-auto text-center sm:text-left px-4 py-1.5 sm:py-2 border-2 -mt-px first:mt-0 sm:mt-0 sm:-ml-px sm:first:ml-0 font-bold text-base sm:text-xl md:text-2xl tracking-wider overflow-hidden"
                                         style={{borderColor: tealColor, color: tealColor}}
                                     >
                                         <span className="relative z-10 group-hover:text-white transition-colors duration-200 ease-in-out">{button.text}</span>
