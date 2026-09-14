@@ -197,10 +197,10 @@ const App = () => {
             title: 'FinRAG',
             description: 'An agentic RAG system for financial research, built end-to-end from a custom ETL pipeline to a deployed AI agent. Ingests and embeds financial news into a Chroma vector database via a scheduled backfill and daily cron pipeline, then exposes a LangChain agent (via Groq) with tool access to both semantic news search and live stock price data. Serves a full-stack chat interface (FastAPI + React) deployed on AWS EC2 with Nginx.',
             tags: ['Python', 'LangChain', 'FastAPI', 'React', 'ChromaDB', 'AWS', 'RAG'],
-            liveUrl: 'https://youtu.be/sZyRjD5OHjM',
+            liveUrl: 'http://56.112.37.178',
             codeUrl: 'https://github.com/kmkan/finrag',
             videoUrl: 'https://www.youtube.com/embed/sZyRjD5OHjM'
-        },
+        },,
         {
             title: 'C++ Neural Network Library',
             description: 'A foundational neural network library built from the ground up in C++ for creating, training, and evaluating custom models. Features a modular, object-oriented design implementing core algorithms like backpropagation, demonstrated by successfully classifying digits from the MNIST dataset with high accuracy.',
