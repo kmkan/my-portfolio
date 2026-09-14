@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
+import './App.css';
 
 // Skill Icons - Updated with more accurate logos
 const CppIcon = () => <img src="/img/cpp-logo.svg" alt="C++ Logo" className="w-11 h-11" />;
@@ -46,6 +47,26 @@ const GitHubIcon = ({ size = 35, color = "currentColor" }) => (
 const UpArrowFAIcon = () => (
     <i className="fa fa-angle-up fa-2x" aria-hidden="true"></i>
 );
+
+const RotatingRole = ({ color }) => {
+    const roles = ['ML Engineer.', 'AI Developer.'];
+    const [index, setIndex] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setIndex(prev => (prev + 1) % roles.length);
+        }, 2200);
+        return () => clearInterval(interval);
+    }, []);
+
+    return (
+        <span className="role-rotator">
+            <span key={index} className="role-rotator-item" style={{ color }}>
+                {roles[index]}
+            </span>
+        </span>
+    );
+};
 
 const ProjectCard = ({ videoUrl, title }) => {
     const cardRef = useRef(null);
@@ -331,11 +352,11 @@ const App = () => {
                     <section id="home" className="min-h-screen flex items-center px-6 sm:px-8 md:px-16 lg:px-24">
                         <div className="text-left w-full max-w-5xl">
                             <div className={`transition-all duration-700 ease-out ${headerVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}>
-                                <h1 className="font-bold text-gray-900 leading-none" style={{ fontSize: '4rem' }}>
+                                <h1 className="font-bold text-gray-900 leading-none text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
                                     Hi, I'm <span style={{color: tealColor}}>Kamal.</span>
                                 </h1>
-                                <h2 className="font-bold text-gray-800 leading-tight" style={{ fontSize: '4rem' }}>
-                                    I'm an AI Developer.
+                                <h2 className="font-bold text-gray-800 leading-tight text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
+                                    I'm an <RotatingRole color={tealColor} />
                                 </h2>
                             </div>
                             <div className={`mt-8 flex flex-wrap transition-opacity duration-700 ease-out delay-300 ${navVisible ? 'opacity-100' : 'opacity-0'}`}>
